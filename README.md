@@ -23,6 +23,35 @@ It does not do financial analysis. Deciding what the model should say is
 It will not rescue a workbook whose logic is wrong. It finds errors of
 construction, not errors of thinking.
 
+## How to use this
+
+These are skills for Claude, not a command-line tool. There is nothing to
+install and nothing to import — you describe the work and the matching skill
+fires on its own.
+
+**In Claude Code or Cowork**, once the skills are on your machine:
+
+```bash
+bash ~/Desktop/agent/_setup/sync-skills.sh
+```
+
+That clones every agent repository and links its `skills/` into `~/.claude/skills`,
+so they are available in every session and every folder. Re-run it whenever the
+daily loop ships something new — it pulls rather than re-clones.
+
+Then simply ask. Each skill's `description` frontmatter is written to match how
+the request actually gets phrased, in English or Turkish, so you do not name the
+skill and generally should not have to think about which one applies.
+
+**If nothing fires**, that is a defect in the skill rather than in how you
+asked. The description was written for the wrong phrasing. Say what you asked
+and what you expected, and it gets fixed — that feedback is more valuable than
+working around it.
+
+**What is actually built** is the Done section of [BACKLOG.md](BACKLOG.md).
+Everything under Queue is planned and does not exist yet. The daily loop builds
+one item a day; the table above is the intended shape, not the current state.
+
 ## Layout
 
 ```
