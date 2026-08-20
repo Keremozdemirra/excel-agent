@@ -1,0 +1,216 @@
+{
+  "workbook": "/home/claude/seed/excel-agent/examples/model-audit/inherited-model.xlsx",
+  "sheets": [
+    "Inputs",
+    "Revenue",
+    "Costs",
+    "Summary",
+    "Scratch"
+  ],
+  "formula_cells": 121,
+  "findings": [
+    {
+      "kind": "hardcode",
+      "formula": "=Inputs!$B$6*1.06",
+      "literal": "1.06",
+      "label": "rate or factor",
+      "severity": "high",
+      "note": "literal 1.06 (rate or factor) inside arithmetic",
+      "reach": 9,
+      "score": 12.0,
+      "address": "Revenue!F11"
+    },
+    {
+      "kind": "row_break",
+      "formula": "762000",
+      "severity": "high",
+      "note": "hardcoded value 762000 where the row calculates",
+      "majority": "R[-3]C*R[-1]C",
+      "majority_share": "11/12",
+      "example": "Revenue!B12",
+      "reach": 8,
+      "score": 11.73,
+      "address": "Revenue!H12"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=Inputs!$B$10*0.08",
+      "literal": "0.08",
+      "label": "rate or factor",
+      "severity": "high",
+      "note": "literal 0.08 (rate or factor) inside arithmetic",
+      "reach": 5,
+      "score": 10.67,
+      "address": "Costs!B10"
+    },
+    {
+      "kind": "short_range",
+      "formula": null,
+      "severity": "high",
+      "note": "SUM(B4:B11) ends at row 11; 1 populated cell(s) below are excluded: Costs!B12",
+      "reach": 4,
+      "score": 10.19,
+      "address": "Costs!B13"
+    },
+    {
+      "kind": "short_range",
+      "formula": null,
+      "severity": "high",
+      "note": "SUM(B12:K12) ends at column K; 2 populated cell(s) to the right are excluded: Revenue!L12, Revenue!M12",
+      "reach": 4,
+      "score": 10.19,
+      "address": "Revenue!B15"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=K12*0.55",
+      "literal": "0.55",
+      "label": "rate or factor",
+      "severity": "high",
+      "note": "literal 0.55 (rate or factor) inside arithmetic",
+      "reach": 3,
+      "score": 9.61,
+      "address": "Revenue!K13"
+    },
+    {
+      "kind": "row_break",
+      "formula": "=Inputs!$B$3",
+      "severity": "medium",
+      "note": "formula differs from the rest of the row",
+      "majority": "R[+4]C[-1]",
+      "majority_share": "11/12",
+      "example": "Revenue!C5",
+      "reach": 83,
+      "score": 8.77,
+      "address": "Revenue!B5"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=#REF!*1.15",
+      "literal": "1.15",
+      "label": "rate or factor",
+      "severity": "high",
+      "note": "literal 1.15 (rate or factor) inside arithmetic",
+      "reach": 0,
+      "score": 6.0,
+      "address": "Summary!B16"
+    },
+    {
+      "kind": "row_break",
+      "formula": "=Inputs!$B$6*1.06",
+      "severity": "medium",
+      "note": "formula differs from the rest of the row",
+      "majority": "INPUTS!R6C2",
+      "majority_share": "11/12",
+      "example": "Revenue!B11",
+      "reach": 9,
+      "score": 6.0,
+      "address": "Revenue!F11"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=Inputs!$B$3*13",
+      "literal": "13",
+      "label": "count or factor",
+      "severity": "medium",
+      "note": "literal 13 (count or factor) inside arithmetic",
+      "reach": 5,
+      "score": 5.33,
+      "address": "Costs!B7"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=Inputs!$B$8*1800",
+      "literal": "1800",
+      "label": "magnitude",
+      "severity": "medium",
+      "note": "literal 1800 (magnitude) inside arithmetic",
+      "reach": 5,
+      "score": 5.33,
+      "address": "Costs!B8"
+    },
+    {
+      "kind": "hardcode",
+      "formula": "=Inputs!$B$8*42*Inputs!$B$12",
+      "literal": "42",
+      "label": "count or factor",
+      "severity": "medium",
+      "note": "literal 42 (count or factor) inside arithmetic",
+      "reach": 5,
+      "score": 5.33,
+      "address": "Costs!B9"
+    },
+    {
+      "kind": "row_break",
+      "formula": "=K12*0.55",
+      "severity": "medium",
+      "note": "formula differs from the rest of the row",
+      "majority": "R[-1]C*INPUTS!R7C2",
+      "majority_share": "11/12",
+      "example": "Revenue!B13",
+      "reach": 3,
+      "score": 4.81,
+      "address": "Revenue!K13"
+    }
+  ],
+  "dead_blocks": [
+    {
+      "sheet": "Scratch",
+      "size": 18,
+      "range": "B4:D9"
+    },
+    {
+      "sheet": "Summary",
+      "size": 2,
+      "range": "B10:B11"
+    },
+    {
+      "sheet": "Summary",
+      "size": 1,
+      "range": "B16:B16"
+    },
+    {
+      "sheet": "Revenue",
+      "size": 1,
+      "range": "H11:H11"
+    }
+  ],
+  "sheet_edges": [
+    {
+      "from": "Revenue",
+      "to": "Inputs",
+      "n": 48
+    },
+    {
+      "from": "Costs",
+      "to": "Inputs",
+      "n": 9
+    },
+    {
+      "from": "Summary",
+      "to": "Revenue",
+      "n": 3
+    },
+    {
+      "from": "Summary",
+      "to": "Costs",
+      "n": 1
+    },
+    {
+      "from": "Summary",
+      "to": "Inputs",
+      "n": 1
+    },
+    {
+      "from": "Scratch",
+      "to": "Revenue",
+      "n": 36
+    }
+  ],
+  "externals": [
+    "Summary!B13"
+  ],
+  "errors": [
+    "Summary!B16"
+  ]
+}

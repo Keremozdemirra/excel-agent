@@ -22,11 +22,10 @@ Rules of thumb applied to every item:
 
 ## Done
 
-Nothing yet.
+- [x] **001 — model-audit** · shipped 2026-08-20.
 
 ## Queue
 
-- [ ] **001 — model-audit** · Take apart an inherited workbook: map the dependency graph, find hardcoded values inside formula ranges, find ranges that stop short, find inconsistent formulas across a row, and report them ranked by how much of the answer each one moves.
 - [ ] **002 — formula-conventions** · The construction rules that make a model auditable — one formula per row, inputs separated from calculations, no magic numbers, named ranges where they earn their keep — and how to retrofit them without breaking the file.
 - [ ] **003 — unit-and-sanity-checks** · Build the checks a model should carry inside itself: balance checks, sign conventions, totals that must reconcile, and units that must agree. A model that cannot fail loudly will fail quietly.
 - [ ] **004 — tidy-a-messy-export** · Turn a real export — merged headers, repeated labels, footnote rows, numbers stored as text — into something computable, and report exactly what was discarded.
