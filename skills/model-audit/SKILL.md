@@ -1,6 +1,6 @@
 ---
 name: model-audit
-description: "Take apart a spreadsheet somebody else built and report what is wrong with its structure, ranked by how much of the answer each defect moves. Maps the dependency graph, finds numbers typed inside formulas, ranges that stop short of the block they sum, rows where one cell breaks the pattern, external links and #REF! remnants, and calculations nothing depends on. Use whenever the ask is to check, audit, inherit, take over, sanity-test or trust a workbook before acting on it: \"bu excel'i incele\", \"modeli denetle\", \"bu tabloda hata var mı\", \"bu dosyayı devraldım\", \"formülleri kontrol et\", \"bu toplam neden tutmuyor\", \"sabit değer var mı\", \"hangi hücre neyi besliyor\", \"bağımlılıkları çıkar\", \"excel'e güvenebilir miyim\", \"audit this workbook\", \"check this spreadsheet for errors\", \"I inherited this model\", \"what is hardcoded in here\", \"why doesn't this total tie\", \"map the dependencies\", \"are these formulas consistent\", \"can I trust this file\". Use it before a board pack, a budget submission, a price decision or a handover. Not for building a model, not for cleaning data, not for reading values out of a workbook."
+description: "Take apart a spreadsheet somebody else built and report what is wrong with its structure, ranked by how much of the answer each defect moves. Maps the dependency graph, finds numbers typed inside formulas, ranges that stop short of the block they sum, rows where one cell breaks the pattern, external links and #REF! remnants, and calculations nothing depends on. Use whenever the ask is to check, audit, inherit, take over, sanity-test or trust a workbook before acting on it: \"bu excel'i incele\", \"modeli denetle\", \"bu tabloda hata var mı\", \"bu dosyayı devraldım\", \"formülleri kontrol et\", \"bu toplam neden tutmuyor\", \"excel'e güvenebilir miyim\", \"audit this workbook\", \"check this spreadsheet for errors\", \"I inherited this model\", \"what is hardcoded in here\", \"why doesn't this total tie\", \"map the dependencies\". Use it before a board pack, a budget submission, a price decision or a handover. Not for building a model, not for cleaning data, not for reading values out of a workbook."
 ---
 
 # Model Audit
@@ -97,11 +97,16 @@ the output goes in an appendix however wrong it is, and saying so is the service
 
 ```bash
 pip install openpyxl --break-system-packages   # if openpyxl is missing
-python3 scripts/audit.py model.xlsx \
+# The relative path only resolves from the skill's own directory; locate the script directly.
+MODEL_AUDIT="$(find "$HOME/.claude/skills" "$HOME/agents" -name audit.py -path '*model-audit*' -print -quit 2>/dev/null)"
+python3 "$MODEL_AUDIT" model.xlsx \
     --outputs "Summary!B6,Summary!B8,Summary!B14" \
     --out audit-report.md \
     --json audit-findings.json
 ```
+
+If `$MODEL_AUDIT` comes back empty the skill lives somewhere these roots do not
+cover — ask the user where it is installed rather than guessing a path.
 
 With no `--out` the report goes to stdout. `--json` is for chaining; the markdown is the
 deliverable.
