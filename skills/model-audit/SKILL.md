@@ -1,11 +1,11 @@
 ---
 name: model-audit
-description: Take apart a spreadsheet somebody else built and report what is wrong with its structure, ranked by how much of the answer each defect moves. Maps the dependency graph and finds numbers typed inside formulas, ranges that stop short of the block they sum, rows where one cell breaks the pattern, external links, #REF! remnants and calculations nothing depends on. Use before trusting an inherited workbook, a board pack, a budget submission or a handover: "bu exceli incele", "modeli denetle", "bu dosyayi devraldim", "bu toplam neden tutmuyor", "audit this workbook", "what is hardcoded in here". Not for building a model, cleaning data, or reading values out of a workbook.
+description: Takes apart a spreadsheet somebody else built and reports what is wrong with its structure, ranked by how much of the answer each defect moves: hardcoded numbers in formulas, short ranges, pattern breaks, external links, #REF! remnants, dead calculations. Use before trusting an inherited workbook, board pack or budget: "bu exceli incele", "modeli denetle", "bu dosyayi devraldim", "bu toplam neden tutmuyor", "audit this workbook". Not for building a model, cleaning data or reading values out.
 ---
 
 # Model Audit
 
-A workbook you did not build is a claim, not a calculation. The claim is usually
+A workbook you did not build is a claim. The claim is usually
 accepted because the file opens, the numbers look plausible and the arithmetic is
 invisible: a total that stops one row short of the block it sums looks exactly like a
 total that does not, and a growth rate typed into the middle of a formula looks exactly
@@ -25,7 +25,7 @@ model from a bank or an agency, a file a departing colleague left behind, a supp
 pricing sheet, or your own model six months later. Use it before the number leaves the
 building. Use it when a total does not tie and nobody can say why.
 
-Do not use it to build a model, to clean or reshape data, or to extract values — those are
+Do not use it to build a model, to clean or reshape data, or to extract values; those are
 different jobs. Do not use it on a workbook whose formulas have been stripped: a
 values-only export has nothing to audit, and the finding is that the file is unauditable
 in that form. Ask for the live file. Do not use it as a substitute for asking the author
@@ -49,7 +49,7 @@ is where you start.
 **3. Read the dependency map before you read any finding.** The sheet-to-sheet table tells
 you the direction of the model. A sheet nothing reads is either the output or dead weight,
 and knowing which changes how you read the rest. If the map shows circular references,
-stop and resolve those first — every number downstream of a circular reference depends on
+stop and resolve those first: every number downstream of a circular reference depends on
 the iteration setting rather than on the model.
 
 **4. Triage the findings into corrections and judgements.** A range that stops short, a
@@ -60,7 +60,7 @@ they may be deliberate. Ask the author about the judgements; fix the corrections
 the two apart in the report, because a reader who cannot tell them apart will discount
 both.
 
-**5. Perturb to get the real ranking.** The script ranks by severity times reach — the
+**5. Perturb to get the real ranking.** The script ranks by severity times reach, where reach is the
 number of formula cells downstream of the defect. Reach is a proxy and nothing more. A
 cell read by four hundred formulas can be worth nothing to the answer; a cell read by one
 can be worth all of it. To find out what each defect is actually worth:
@@ -68,7 +68,7 @@ can be worth all of it. To find out what each defect is actually worth:
    a. Open the copy with automatic calculation on. Record the baseline value of every
       output cell you care about. Write those numbers down outside the file.
    b. Take the perturbation list in the order printed. Change one cell only.
-      For an input constant, move it by an amount the model's owner would defend — the
+      For an input constant, move it by an amount the model's owner would defend; the
       script prints ±10% as a placeholder, but use the real range where you know it.
       For a hardcoded literal, first replace the literal with a reference to a new input
       cell holding the same value, confirm the outputs have not moved, then move that
@@ -79,17 +79,17 @@ can be worth all of it. To find out what each defect is actually worth:
       perturbation you forgot to undo contaminates every measurement after it.
    e. For corrections, measure once rather than perturbing: fix the short range, or the
       `#REF!`, and record what the fix does to each output. That delta is an error the
-      workbook was carrying, not a sensitivity.
+      workbook was carrying; it belongs in the corrections table.
    f. Rank by the per cent change in the output that matters. That is the ranking the
-      request asked for. The script's ranking is a starting order for this work, not a
-      substitute for it.
+      request asked for. The script's ranking is the starting order for this work; the
+      ranking you report comes from the perturbation.
 
    Two cautions. Deltas do not add: correcting a short range changes what a rate
    perturbation is worth, so compute the combined corrected case separately and label it
-   as such. And a perturbation that moves nothing is a finding in its own right — a cell
+   as such. And a perturbation that moves nothing is a finding in its own right: a cell
    that carries no weight is one nobody needs to argue about.
 
-**6. Report the ranking, not the list.** Lead with the corrections and what they are
+**6. Report the ranking and leave the list for the appendix.** Lead with the corrections and what they are
 worth. Name the two or three cells that carry the answer. Everything below roughly 1% of
 the output goes in an appendix however wrong it is, and saying so is the service.
 
@@ -106,7 +106,7 @@ python3 "$MODEL_AUDIT" model.xlsx \
 ```
 
 If `$MODEL_AUDIT` comes back empty the skill lives somewhere these roots do not
-cover — ask the user where it is installed rather than guessing a path.
+cover; ask the user where it is installed rather than guessing a path.
 
 With no `--out` the report goes to stdout. `--json` is for chaining; the markdown is the
 deliverable.
@@ -133,8 +133,8 @@ row. It is not a defect. Recognise the shape and say so in the report rather tha
 it through; an audit that cries wolf on the first row is not read to the end.
 
 **Hardcoded is not the same as wrong.** A number inside a formula is a number nobody will
-find when it needs changing. The finding is about where the number lives, not about its
-value. Write it that way, or the author will defend the value and the point will be lost.
+find when it needs changing. The finding is about where the number lives; its value is a
+separate question. Write it that way, or the author will defend the value and the point will be lost.
 
 **A formula cell with no dependents is either an output or dead.** Static analysis cannot
 tell the two apart, which is why `--outputs` exists. Where the audit reports a dead block
@@ -154,6 +154,17 @@ value as an unverified input.
 objects rather than strings; the script handles the common case, but a workbook that leans
 on dynamic arrays deserves a manual pass. Merged cells report against their top-left
 anchor.
+
+**A total that disagrees with the requester's figure indicts your own work first.** When
+the requester already holds a number and yours differs, reconcile against every figure they
+hold before reporting that the workbook cannot reproduce it; the correction you made on the
+way is the first suspect. Placeholder rows are the usual cause: test, dummy and sandbox rows
+mark themselves in whichever column their author typed into, so a filter on one column (an
+ID prefix) passes rows flagged only in a name column. Search every text column for the
+marker set (TEST, SANDBOX, DUMMY, PLACEHOLDER, DO NOT USE), print the rows you would exclude
+and read them before trusting the count; a real name that contains the marker is the
+standard false positive. After any correction to a base figure, recompute every downstream
+figure from the corrected base.
 
 ## Output format
 
