@@ -26,18 +26,31 @@ construction, not errors of thinking.
 ## How to use this
 
 These are skills for Claude, not a command-line tool. There is nothing to
-install and nothing to import — you describe the work and the matching skill
+build and nothing to import — you describe the work and the matching skill
 fires on its own.
 
-**In Claude Code or Cowork**, once the skills are on your machine:
+**In Claude Code**, clone the repository and link its skills and agents into the
+folders Claude Code reads (`~/.claude/skills/` and `~/.claude/agents/`):
 
 ```bash
-bash ~/Desktop/agent/_setup/sync-skills.sh
+git clone https://github.com/Keremozdemirra/excel-agent ~/agent-packs/excel-agent
+cd ~/agent-packs/excel-agent
+mkdir -p ~/.claude/skills ~/.claude/agents
+for s in skills/*; do ln -sfn "$PWD/$s" ~/.claude/skills/; done
+for a in agents/*.md; do ln -sfn "$PWD/$a" ~/.claude/agents/; done
 ```
 
-That clones every agent repository and links its `skills/` into `~/.claude/skills`,
-so they are available in every session and every folder. Re-run it whenever one of
-these repositories ships something new — it pulls rather than re-clones.
+The links point back into the clone, so `git pull` there brings in whatever
+ships next. To copy the files instead of linking them, replace the
+two lines starting with `for` with:
+
+```bash
+cp -R skills/* ~/.claude/skills/
+cp agents/*.md ~/.claude/agents/
+```
+
+Skills placed there are available in every session and every folder; start a
+new session after installing.
 
 Then simply ask. Each skill's `description` frontmatter is written to match how
 the request actually gets phrased, in English or Turkish, so you do not name the

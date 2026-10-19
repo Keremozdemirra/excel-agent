@@ -4,8 +4,9 @@
 
 `inherited-model.xlsx` is a twelve-month subscription plan across five sheets:
 `Inputs`, `Revenue`, `Costs`, `Summary`, `Scratch`. 199 populated cells, 121 of them
-formulas. `make-inherited-model.py` rebuilds it byte-for-byte, so every figure below can
-be reproduced.
+formulas. `make-inherited-model.py` rebuilds it. The rebuilt file is not byte-identical,
+because the workbook records when it was created, but its cells are, and the audit
+reproduces every figure below: the same 13 of 13 findings.
 
 Thirteen defects were planted, of the kinds that survive a real handover. Nobody was told
 where they are before the audit ran.
