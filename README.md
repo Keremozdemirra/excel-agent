@@ -1,11 +1,11 @@
 # excel-agent
 
-Agents and skills for spreadsheet work — auditing other people's models and building ones that survive review.
+Agents and skills for spreadsheet work: auditing other people's models and building ones that survive review.
 
 A spreadsheet is the most widely used programming environment in the
 world and the one with the worst tooling. There is no test suite, no diff worth
-reading, no type system, and the most expensive errors — a range that stopped
-one row short, a hardcoded number pasted over a formula, a unit mismatch — look
+reading, no type system, and the most expensive errors (a range that stopped
+one row short, a hardcoded number pasted over a formula, a unit mismatch) look
 exactly like correct output.
 
 This repository holds the agents and skills for two jobs: taking apart a model
@@ -25,8 +25,8 @@ construction, not errors of thinking.
 
 ## How to use this
 
-These are skills for Claude, not a command-line tool. There is nothing to
-build and nothing to import — you describe the work and the matching skill
+These are skills for Claude. There is nothing to
+build and nothing to import: you describe the work and the matching skill
 fires on its own.
 
 **In Claude Code**, clone the repository and link its skills and agents into the
@@ -58,7 +58,7 @@ skill and generally should not have to think about which one applies.
 
 **If nothing fires**, that is a defect in the skill rather than in how you
 asked. The description was written for the wrong phrasing. Say what you asked
-and what you expected, and it gets fixed — that feedback is more valuable than
+and what you expected, and it gets fixed. That feedback is more valuable than
 working around it.
 
 **What is actually built** is listed under Contents below and in the Done
