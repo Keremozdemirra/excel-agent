@@ -15,7 +15,7 @@ somebody else could take apart without finding anything.
 ## What this is not
 
 It is not a spreadsheet library. Where a file has to be produced,
-the skills call one; the value here is the judgement, not the writer.
+the skills call one; the value here is the judgement.
 
 It does not do financial analysis. Deciding what the model should say is
 `finance-agent`'s job; this is about whether the model says what it claims to.
